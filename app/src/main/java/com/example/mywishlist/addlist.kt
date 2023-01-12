@@ -1,6 +1,8 @@
 package com.example.mywishlist
 
 import android.Manifest
+import android.Manifest.permission.CAMERA
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
@@ -13,10 +15,12 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.webkit.PermissionRequest
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -27,8 +31,6 @@ import java.util.*
 
 class addlist : AppCompatActivity() {
     companion object {
-        private const val CAMERA_PERMISSION_CODE = 1
-        private const val CAMERA_REQUIRED_CODE = 2
         private const val GALLERY = 1
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,58 +70,28 @@ class addlist : AppCompatActivity() {
             ,day).show()
     }
 
-
-
     fun addimage(view: View) {
-        val pictureDialog = AlertDialog.Builder(this)
-        pictureDialog.setTitle("Select Action")
-        val pictureDialogItems = arrayOf("Gallery", "Camera")
-        pictureDialog.setItems(pictureDialogItems)
-        { dialogs, which ->
-            when (which) {
-                0 -> choosePhotofromGalary()
-                1 -> Opencamera()
-            }
-        }
-        pictureDialog.show()
-    }
-
-
-    private fun Opencamera() {
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(intent, CAMERA_REQUIRED_CODE)
-        } else {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_CODE
-            )
-        }
-
+        choosePhotofromGalary()
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val dp=findViewById<ImageView>(R.id.pic)
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode== GALLERY)
-        {
-            if(data!=null)
-            {
-                val contentURI=data.data
-                try {
-                    val selectedimageBitmape=
-                        MediaStore.Images.Media.getBitmap(this.contentResolver,contentURI)
-                    //di.setImageBitmap(selectedimageBitmape)
-                }catch (e: IOException)
-                {
-                    e.printStackTrace()
-                    Toast.makeText(this@addlist,"Sorry,failed to load", Toast.LENGTH_SHORT).show()
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == GALLERY) {
+                if (data != null) {
+                    try {
+                        val mselectedImageFileUri  = data.data!!
+                        GlideLoader(this).loadUserPicture(mselectedImageFileUri!!,dp)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(this,"Permission denied",Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
+
 
     private fun choosePhotofromGalary() {
         Dexter.withActivity(this).withPermissions(
@@ -127,7 +99,7 @@ class addlist : AppCompatActivity() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).withListener(object : MultiplePermissionsListener {
             override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                if (report?.areAllPermissionsGranted() == true) {
+                if (report!!.areAllPermissionsGranted()) {
                     val galleryIntent =
                         Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     startActivityForResult(galleryIntent, GALLERY)
@@ -137,8 +109,8 @@ class addlist : AppCompatActivity() {
 
             override fun onPermissionRationaleShouldBeShown(
                 p0: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
-                token: PermissionToken?
-            ) {
+                token: PermissionToken?)
+            {
                 showRDforpermissions()
             }
         }).onSameThread().check()
