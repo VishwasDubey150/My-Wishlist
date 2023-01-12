@@ -50,7 +50,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
     </EditText>
-    <EditText
+    <TextView
+        android:id="@+id/dates"
         android:elevation="50dp"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
@@ -64,8 +65,9 @@
         android:paddingBottom="15dp"
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp">
-    </EditText>
+        android:paddingRight="20dp"
+        android:onClick="date">
+    </TextView>
 
     <EditText
         android:elevation="50dp"
@@ -81,7 +83,8 @@
         android:paddingBottom="15dp"
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        android:onClick="location">
     </EditText>
 
     <LinearLayout
@@ -89,13 +92,26 @@
         android:layout_height="200dp"
         android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp">
 
         <ImageView
-            android:layout_width="100dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/image">
+            android:src="@drawable/image"
+            android:padding="20dp">
         </ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Add image"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:fontFamily="@font/blinker_bold"
+            android:onClick="addimage">
+        </TextView>
     </LinearLayout>
 
     <Button
@@ -105,12 +121,13 @@
         android:elevation="50dp"
         android:fontFamily="@font/blinker_bold"
         android:padding="10dp"
+        android:onClick="save"
         android:text="Save"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="40dp"
         app:backgroundTint="#58E0C0"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="30dp">
     </Button>
 
 
