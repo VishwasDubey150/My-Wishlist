@@ -1,37 +1,39 @@
 package com.example.mywishlist
 
 import android.Manifest
-import android.Manifest.permission.CAMERA
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
-import android.webkit.PermissionRequest
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
 import java.util.*
 
 class addlist : AppCompatActivity() {
     companion object {
         private const val GALLERY = 1
+        private const val IMAGE_DIRECTORY = "HappyPlacesImages"
+
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,23 +77,24 @@ class addlist : AppCompatActivity() {
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val dp=findViewById<ImageView>(R.id.pic)
+        val dp = findViewById<ImageView>(R.id.pic)
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GALLERY) {
                 if (data != null) {
+                    val contentURI = data.data
                     try {
-                        val mselectedImageFileUri  = data.data!!
-                        GlideLoader(this).loadUserPicture(mselectedImageFileUri!!,dp)
+                        val selectedImageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+                        dp!!.setImageBitmap(selectedImageBitmap)
+                        saveImageToInternalStorage(selectedImageBitmap)
                     } catch (e: IOException) {
                         e.printStackTrace()
-                        Toast.makeText(this,"Permission denied",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
-
 
     private fun choosePhotofromGalary() {
         Dexter.withActivity(this).withPermissions(
@@ -103,6 +106,7 @@ class addlist : AppCompatActivity() {
                     val galleryIntent =
                         Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     startActivityForResult(galleryIntent, GALLERY)
+
                 }
 
             }
@@ -135,4 +139,23 @@ class addlist : AppCompatActivity() {
                 dialog.dismiss()
             }.show()
     }
+
+    private fun saveImageToInternalStorage(bitmap: Bitmap): Uri {
+        val wrapper = ContextWrapper(applicationContext)
+
+        var file = wrapper.getDir(IMAGE_DIRECTORY, Context.MODE_PRIVATE)
+
+        file = File(file, "${UUID.randomUUID()}.jpg")
+
+        try {
+            val stream: OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.flush()
+            stream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return Uri.parse(file.absolutePath)
+    }
+
 }
