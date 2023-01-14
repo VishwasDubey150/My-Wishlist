@@ -12,7 +12,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
 import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
@@ -20,6 +19,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.mywishlist.R
+import com.example.mywishlist.database.DatabaseHandler
 import com.example.mywishlist.model.MyWishlistModel
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
@@ -77,10 +77,21 @@ class addlist : AppCompatActivity() {
             saveImageToInternalStorage == null ->{
                 Toast.makeText(this,"Please select an image",Toast.LENGTH_LONG).show()
             }
-            else{
+            else ->{
                 val MyWishlistModel=MyWishlistModel(
-                    0,Name.text.toString(),im
+                    0,Name.text.toString(),pic.toString(),description.text.toString(),dates.text.toString(),location.text.toString(),
+                    mLatitude,
+                    mLongitude
                 )
+
+                val  dbHandler=DatabaseHandler(this)
+                val addMyWishlist=dbHandler.addWishlist(MyWishlistModel)
+
+                if(addMyWishlist>0)
+                {
+                    Toast.makeText(this,"inserted successfull",Toast.LENGTH_SHORT).show()
+                    finish()
+                }
             }
         }
     }

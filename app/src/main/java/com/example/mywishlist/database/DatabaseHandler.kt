@@ -1,8 +1,11 @@
 package com.example.mywishlist.database
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.mywishlist.model.MyWishlistModel
 
@@ -65,5 +68,42 @@ class DatabaseHandler(context: Context) :
         db.close() // Closing database connection
         return result
     }
+
+    @SuppressLint("Range")
+    fun getWishlistsList(): ArrayList<MyWishlistModel> {
+
+        // A list is initialize using the data model class in which we will add the values from cursor.
+        val WishlistList: ArrayList<MyWishlistModel> = ArrayList()
+
+        val selectQuery = "SELECT  * FROM $TABLE_MYWISHLIST" // Database select query
+
+        val db = this.readableDatabase
+
+        try {
+            val cursor: Cursor = db.rawQuery(selectQuery, null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val place = MyWishlistModel(
+                        cursor.getInt(cursor.getColumnIndex(KEY_ID)),
+                        cursor.getString(cursor.getColumnIndex(KEY_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(KEY_IMAGE)),
+                        cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+                        cursor.getString(cursor.getColumnIndex(KEY_DATE)),
+                        cursor.getString(cursor.getColumnIndex(KEY_LOCATION)),
+                        cursor.getDouble(cursor.getColumnIndex(KEY_LATITUDE)),
+                        cursor.getDouble(cursor.getColumnIndex(KEY_LONGITUDE))
+                    )
+                    WishlistList.add(place)
+
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        } catch (e: SQLiteException) {
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+        return WishlistList
+    }
     // END
 }
+    //
