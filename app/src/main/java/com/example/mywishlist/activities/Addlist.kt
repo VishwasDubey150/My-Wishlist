@@ -89,7 +89,7 @@ class addlist : AppCompatActivity() {
 
                 if(addMyWishlist>0)
                 {
-                    Toast.makeText(this,"inserted successfull",Toast.LENGTH_SHORT).show()
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
             }

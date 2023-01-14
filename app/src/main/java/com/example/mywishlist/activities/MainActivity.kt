@@ -1,5 +1,6 @@
 package com.example.mywishlist.activities
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     fun add(view: View) {
         val intent= Intent(this, addlist::class.java)
-        startActivity(intent)
+        startActivityForResult(intent,ADD_req_code)
         getHappyPlacesListFromLocalDB()
         // END
     }
@@ -57,5 +58,19 @@ class MainActivity : AppCompatActivity() {
             empty.visibility=View.VISIBLE
         }
     }
-    // END
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == ADD_req_code)
+        {
+            if(resultCode==Activity.RESULT_OK)
+            {
+                getHappyPlacesListFromLocalDB()
+            }
+        }
+    }
+    companion object
+    {
+        var ADD_req_code=1;
+    }
 }
