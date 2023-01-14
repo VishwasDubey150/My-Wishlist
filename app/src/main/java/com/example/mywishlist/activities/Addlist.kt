@@ -1,4 +1,4 @@
-package com.example.mywishlist
+package com.example.mywishlist.activities
 
 import android.Manifest
 import android.app.Activity
@@ -12,12 +12,15 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Im
 import android.provider.MediaStore
 import android.provider.Settings
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.example.mywishlist.R
+import com.example.mywishlist.model.MyWishlistModel
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -32,7 +35,10 @@ import java.util.*
 class addlist : AppCompatActivity() {
     companion object {
         private const val GALLERY = 1
-        private const val IMAGE_DIRECTORY = "HappyPlacesImages"
+        private const val IMAGE_DIRECTORY = "MyWishlist"
+        private var saveImageToInternalStorage:Uri?=null
+        private var mLatitude:Double=0.0
+        private var mLongitude:Double=0.0
 
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,18 +48,46 @@ class addlist : AppCompatActivity() {
     }
 
     fun back(view: View) {
-        val intent= Intent(this,MainActivity::class.java)
+        val intent= Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
     fun save(view: View) {
-        Snackbar.make(view,"Saving",Snackbar.LENGTH_SHORT).show()
+
+
+        var Name=findViewById<TextView>(R.id.name)
+        var dates=findViewById<TextView>(R.id.dates)
+        var description=findViewById<TextView>(R.id.description)
+        var location=findViewById<TextView>(R.id.location)
+        var pic=findViewById<ImageView>(R.id.pic)
+
+        when{
+            Name.text.isNullOrEmpty() ->{
+                Toast.makeText(this,"Enter you name",Toast.LENGTH_SHORT).show()
+            }
+            dates.text.isNullOrEmpty() ->{
+                Toast.makeText(this,"Enter expected date",Toast.LENGTH_SHORT).show()
+            }
+            description.text.isNullOrEmpty() ->{
+                Toast.makeText(this,"Enter short description about place",Toast.LENGTH_SHORT).show()
+            }
+            Name.text.isNullOrEmpty() ->{
+                Toast.makeText(this,"Enter you name",Toast.LENGTH_SHORT).show()
+            }
+            saveImageToInternalStorage == null ->{
+                Toast.makeText(this,"Please select an image",Toast.LENGTH_LONG).show()
+            }
+            else{
+                val MyWishlistModel=MyWishlistModel(
+                    0,Name.text.toString(),im
+                )
+            }
+        }
     }
 
 
     fun location(view: View) {
         Snackbar.make(view,"Location",Snackbar.LENGTH_SHORT).show()
-
     }
 
     fun date(view: View) {
@@ -86,7 +120,7 @@ class addlist : AppCompatActivity() {
                     try {
                         val selectedImageBitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
                         dp!!.setImageBitmap(selectedImageBitmap)
-                        saveImageToInternalStorage(selectedImageBitmap)
+                        saveImageToInternalStorage=saveImageToInternalStorage(selectedImageBitmap)
                     } catch (e: IOException) {
                         e.printStackTrace()
                         Toast.makeText(this, "Permission denied",  Toast.LENGTH_SHORT).show()
@@ -106,11 +140,8 @@ class addlist : AppCompatActivity() {
                     val galleryIntent =
                         Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     startActivityForResult(galleryIntent, GALLERY)
-
                 }
-
             }
-
             override fun onPermissionRationaleShouldBeShown(
                 p0: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
                 token: PermissionToken?)
@@ -123,7 +154,7 @@ class addlist : AppCompatActivity() {
 
     private fun showRDforpermissions() {
         AlertDialog.Builder(this)
-            .setMessage("its look like you have turned off permission required fpr this feature.It can be enabled under the Application Settings")
+            .setMessage("its look like you have turned off permission required for this feature.It can be enabled under the Application Settings")
             .setPositiveButton("Allow from setting")
             { _, _ ->
                 try {
@@ -142,11 +173,8 @@ class addlist : AppCompatActivity() {
 
     private fun saveImageToInternalStorage(bitmap: Bitmap): Uri {
         val wrapper = ContextWrapper(applicationContext)
-
         var file = wrapper.getDir(IMAGE_DIRECTORY, Context.MODE_PRIVATE)
-
         file = File(file, "${UUID.randomUUID()}.jpg")
-
         try {
             val stream: OutputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
@@ -157,5 +185,4 @@ class addlist : AppCompatActivity() {
         }
         return Uri.parse(file.absolutePath)
     }
-
 }

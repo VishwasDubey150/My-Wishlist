@@ -1,9 +1,10 @@
-package com.example.mywishlist
+package com.example.mywishlist.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.mywishlist.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun add(view: View) {
-        val intent= Intent(this,addlist::class.java)
+        val intent= Intent(this, addlist::class.java)
         startActivity(intent)
     }
 }

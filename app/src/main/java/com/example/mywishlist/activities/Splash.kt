@@ -1,9 +1,10 @@
-package com.example.mywishlist
+package com.example.mywishlist.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.example.mywishlist.R
 
 class splash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,7 +12,7 @@ class splash : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         supportActionBar?.hide()
         Handler().postDelayed({
-            val intent=Intent(this@splash,MainActivity::class.java)
+            val intent=Intent(this@splash, MainActivity::class.java)
             startActivity(intent)
             finish()
         },1500)

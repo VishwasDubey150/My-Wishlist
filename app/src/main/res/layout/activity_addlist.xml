@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".addlist"
+    tools:context=".activities.addlist"
     android:background="#D1E0FA"
     android:orientation="vertical">
 
@@ -20,6 +20,7 @@
     </ImageView>
 
     <EditText
+        android:id="@+id/name"
         android:elevation="50dp"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
@@ -36,6 +37,7 @@
     </EditText>
 
     <EditText
+        android:id="@+id/description"
         android:elevation="50dp"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
@@ -71,6 +73,7 @@
     </TextView>
 
     <EditText
+        android:id="@+id/location"
         android:elevation="50dp"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
