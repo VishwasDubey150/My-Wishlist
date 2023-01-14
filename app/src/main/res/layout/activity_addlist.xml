@@ -12,9 +12,8 @@
     android:orientation="vertical">
 
     <ImageView
-        android:paddingLeft="30dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
         android:src="@drawable/back"
         android:onClick="back">
     </ImageView>
@@ -134,7 +133,7 @@
         android:textAllCaps="false"
         android:textSize="40dp"
         app:backgroundTint="#58E0C0"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="10dp">
     </Button>
 
 

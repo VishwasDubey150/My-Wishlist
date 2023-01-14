@@ -5,8 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mywishlist.Adapters.MyWishlistAdapter
 import com.example.mywishlist.R
 import com.example.mywishlist.database.DatabaseHandler
+import com.example.mywishlist.model.MyWishlistModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,18 +27,34 @@ class MainActivity : AppCompatActivity() {
         // END
     }
 
+    private fun setupRecyclerView(WishList: ArrayList<MyWishlistModel>) {
+        var rv=findViewById<RecyclerView>(R.id.rv)
+
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.setHasFixedSize(true)
+
+        val placesAdapter = MyWishlistAdapter(this, WishList)
+        rv.adapter = placesAdapter
+    }
+
+
     private fun getHappyPlacesListFromLocalDB() {
+        var rv=findViewById<RecyclerView>(R.id.rv)
+        var empty=findViewById<TextView>(R.id.empty)
 
         val dbHandler = DatabaseHandler(this)
 
         val getHappyPlacesList = dbHandler.getWishlistsList()
 
         if (getHappyPlacesList.size > 0) {
-            for (i in getHappyPlacesList) {
-                Log.e("Title", i.title)
-                Log.e("Description", i.description)
-                Log.e("date", i.date)
-            }
+            rv.visibility=View.VISIBLE
+            empty.visibility=View.GONE
+            setupRecyclerView(getHappyPlacesList)
+        }
+        else
+        {
+            rv.visibility=View.GONE
+            empty.visibility=View.VISIBLE
         }
     }
     // END
