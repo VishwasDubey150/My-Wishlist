@@ -21,7 +21,7 @@
     <EditText
         android:id="@+id/name"
         android:elevation="50dp"
-        android:layout_width="260dp"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:hint="Name of place"
         android:textSize="35dp"
@@ -38,24 +38,25 @@
     <EditText
         android:id="@+id/description"
         android:elevation="50dp"
-        android:layout_width="260dp"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:hint="Description of place"
-        android:textSize="25dp"
+        android:hint="Description (100 letters)"
+        android:textSize="20dp"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/blinker_bold"
         android:textAlignment="center"
         android:background="@drawable/et_bg"
         android:layout_gravity="center"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:maxLength="100">
     </EditText>
     <TextView
         android:id="@+id/dates"
         android:elevation="50dp"
-        android:layout_width="260dp"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:hint="Expected Date"
         android:textSize="35dp"
@@ -74,7 +75,7 @@
     <EditText
         android:id="@+id/location"
         android:elevation="50dp"
-        android:layout_width="260dp"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:hint="Location"
         android:textSize="25dp"

@@ -73,4 +73,9 @@ class MainActivity : AppCompatActivity() {
     {
         var ADD_req_code=1;
     }
+
+    fun descrip(view: View) {
+        var intent=Intent(this,place_details::class.java)
+        startActivity(intent)
+    }
 }
