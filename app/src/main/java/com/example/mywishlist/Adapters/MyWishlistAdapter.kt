@@ -29,9 +29,12 @@ class MyWishlistAdapter(
         }
     }
 
-
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    interface OnClickListner{
+        fun onClick(position: Int,model: MyWishlistModel)
     }
 
     private class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
