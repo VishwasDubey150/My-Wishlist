@@ -17,15 +17,7 @@ import com.example.mywishlist.model.MyWishlistModel
 class place_details : AppCompatActivity() {
 
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        var img=findViewById<ImageView>(R.id.cover)
-        var name=findViewById<TextView>(R.id.name)
-        var description=findViewById<TextView>(R.id.dis)
-        var location=findViewById<Button>(R.id.location)
-        var exp_date=findViewById<Button>(R.id.exp_date)
-
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_details)
@@ -44,11 +36,20 @@ class place_details : AppCompatActivity() {
         }
         if (myWishlistModel != null)
         {
-            //img.setImageURI(Uri.parse(myWishlistModel.image))
-            name?.text=myWishlistModel.title
-            description?.text=myWishlistModel.description
-            location?.text=myWishlistModel.location
-            exp_date?.text=myWishlistModel.date
+            var cover=findViewById<ImageView>(R.id.cover)
+            var name=findViewById<TextView>(R.id.name)
+            var description=findViewById<TextView>(R.id.dis)
+            var location=findViewById<Button>(R.id.location)
+            var exp_date=findViewById<Button>(R.id.exp_date)
+
+            //cover.setImageURI(Uri.parse(myWishlistModel.image))
+            name.text=myWishlistModel.title
+            description.text=myWishlistModel.description
+            //location.text=myWishlistModel.location
+            var e_date=myWishlistModel.date
+            exp_date.setOnClickListener {
+                Toast.makeText(this,"$e_date",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
