@@ -4,15 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mywishlist.Adapters.MyWishlistAdapter
 import com.example.mywishlist.R
 import com.example.mywishlist.database.DatabaseHandler
 import com.example.mywishlist.model.MyWishlistModel
+import com.example.mywishlist.Utils.SwipeToDelete
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +45,16 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+        val deleteSwipeHandler = object : SwipeToDelete(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = rv.adapter as MyWishlistAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                getHappyPlacesListFromLocalDB()
+            }
+        }
+        val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
+        deleteItemTouchHelper.attachToRecyclerView(rv)
     }
-
-
-
 
     private fun getHappyPlacesListFromLocalDB() {
         var rv=findViewById<RecyclerView>(R.id.rv)
@@ -71,10 +78,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == ADD_req_code)
-        {
-            if(resultCode==Activity.RESULT_OK)
-            {
+        if (requestCode == ADD_req_code) {
+            if (resultCode == Activity.RESULT_OK) {
                 getHappyPlacesListFromLocalDB()
             }
         }

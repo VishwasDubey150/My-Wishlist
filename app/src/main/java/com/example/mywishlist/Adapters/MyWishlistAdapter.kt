@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mywishlist.R
+import com.example.mywishlist.database.DatabaseHandler
 import com.example.mywishlist.model.MyWishlistModel
 
 class MyWishlistAdapter(
@@ -45,6 +46,18 @@ class MyWishlistAdapter(
     override fun getItemCount(): Int {
         return list.size
     }
+
+    fun removeAt(position: Int) {
+
+        val dbHandler = DatabaseHandler(context)
+        val isDeleted = dbHandler.deletePlace(list[position])
+
+        if (isDeleted > 0) {
+            list.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
 
     interface OnClickListner{
         fun onClick(position: Int,model: MyWishlistModel)

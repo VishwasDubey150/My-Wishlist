@@ -69,6 +69,14 @@ class DatabaseHandler(context: Context) :
         return result
     }
 
+
+    fun deletePlace(myWishlistModel: MyWishlistModel): Int {
+        val db=this.writableDatabase
+        val success=db.delete(TABLE_MYWISHLIST, KEY_ID+"="+myWishlistModel.id,null)
+        db.close()
+        return success
+    }
+
     @SuppressLint("Range")
     fun getWishlistsList(): ArrayList<MyWishlistModel> {
 

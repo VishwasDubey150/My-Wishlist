@@ -8,23 +8,6 @@
     tools:context=".activities.place_details"
     android:orientation="vertical"
     android:background="#D1E0FA">
-        <androidx.cardview.widget.CardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="left"
-            app:cardCornerRadius="65dp"
-            app:cardElevation="180dp"
-            android:backgroundTint="@color/white"
-            android:background="@color/white">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/bac"
-                    android:textColor="@color/black">
-                </ImageView>
-        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -32,7 +15,6 @@
             android:layout_gravity="center"
             app:cardCornerRadius="5dp"
             app:cardElevation="10dp"
-            android:layout_marginTop="-70dp"
             android:onClick="backing"
             android:backgroundTint="@color/white"
             android:background="@color/white">
