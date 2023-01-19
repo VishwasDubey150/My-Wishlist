@@ -33,6 +33,7 @@
             android:layout_marginTop="-70dp"
             android:onClick="backing">
                 <ImageView
+                    android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_gravity="top"
@@ -49,6 +50,7 @@
             android:layout_marginTop="-20dp">
 
                <TextView
+                   android:id="@+id/name"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="Name of place"
@@ -63,6 +65,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/dis"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -73,9 +76,8 @@
             android:textSize="30dp">
         </TextView>
 
-
-
         <Button
+            android:id="@+id/location"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -91,6 +93,7 @@
         </Button>
 
         <Button
+            android:id="@+id/exp_date"
             android:onClick="exp_date"
             android:layout_width="250dp"
             android:layout_height="wrap_content"

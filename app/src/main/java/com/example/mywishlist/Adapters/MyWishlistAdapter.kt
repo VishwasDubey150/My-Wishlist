@@ -14,9 +14,16 @@ class MyWishlistAdapter(
     private var list: ArrayList<MyWishlistModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var onClickListner:OnClickListner?=null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview, parent, false))
+    }
+
+    fun setOnClickListner(onClickListner: OnClickListner)
+    {
+        this.onClickListner=onClickListner
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -26,6 +33,12 @@ class MyWishlistAdapter(
         if(holder is MyViewHolder)
         {
             holder.itemView.findViewById<TextView>(R.id.place).text=model.title
+            holder.itemView.setOnClickListener{
+                if(onClickListner!=null)
+                {
+                    onClickListner!!.onClick(position,model)
+                }
+            }
         }
     }
 
@@ -38,4 +51,4 @@ class MyWishlistAdapter(
     }
 
     private class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
-}
+    }

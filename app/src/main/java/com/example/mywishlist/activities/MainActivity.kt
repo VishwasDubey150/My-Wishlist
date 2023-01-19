@@ -36,7 +36,17 @@ class MainActivity : AppCompatActivity() {
 
         val placesAdapter = MyWishlistAdapter(this, WishList)
         rv.adapter = placesAdapter
+
+        placesAdapter.setOnClickListner(object : MyWishlistAdapter.OnClickListner{
+            override fun onClick(position: Int, model:MyWishlistModel) {
+                val intent=Intent(this@MainActivity,place_details::class.java)
+                intent.putExtra(EXTRA_PLACE_DETAILS,model)
+                startActivity(intent)
+            }
+        })
     }
+
+
 
 
     private fun getHappyPlacesListFromLocalDB() {
@@ -72,10 +82,6 @@ class MainActivity : AppCompatActivity() {
     companion object
     {
         var ADD_req_code=1;
-    }
-
-    fun descrip(view: View) {
-        var intent=Intent(this,place_details::class.java)
-        startActivity(intent)
+        val EXTRA_PLACE_DETAILS="extra_place_details"
     }
 }
