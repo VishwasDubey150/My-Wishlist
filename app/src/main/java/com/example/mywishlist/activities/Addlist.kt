@@ -21,7 +21,6 @@ import android.widget.Toast
 import com.example.mywishlist.R
 import com.example.mywishlist.database.DatabaseHandler
 import com.example.mywishlist.model.MyWishlistModel
-import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -37,16 +36,12 @@ class addlist : AppCompatActivity() {
         private const val GALLERY = 1
         private const val IMAGE_DIRECTORY = "MyWishlist"
         private var saveImageToInternalStorage:Uri?=null
-        private var mLatitude:Double=0.0
-        private var mLongitude:Double=0.0
-
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addlist)
         supportActionBar?.hide()
     }
-
     fun back(view: View) {
         val intent= Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -58,7 +53,6 @@ class addlist : AppCompatActivity() {
         var Name=findViewById<TextView>(R.id.name)
         var dates=findViewById<TextView>(R.id.dates)
         var description=findViewById<TextView>(R.id.description)
-        var location=findViewById<TextView>(R.id.location)
         var pic=findViewById<ImageView>(R.id.pic)
 
         when{
@@ -79,10 +73,7 @@ class addlist : AppCompatActivity() {
             }
             else ->{
                 val MyWishlistModel=MyWishlistModel(
-                    0,Name.text.toString(),pic.toString(),description.text.toString(),dates.text.toString(),location.text.toString(),
-                    mLatitude,
-                    mLongitude
-                )
+                    0,Name.text.toString(),pic.toString(),description.text.toString(),dates.text.toString())
 
                 val  dbHandler=DatabaseHandler(this)
                 val addMyWishlist=dbHandler.addWishlist(MyWishlistModel)
@@ -94,11 +85,6 @@ class addlist : AppCompatActivity() {
                 }
             }
         }
-    }
-
-
-    fun location(view: View) {
-        Snackbar.make(view,"Location",Snackbar.LENGTH_SHORT).show()
     }
 
     fun date(view: View) {

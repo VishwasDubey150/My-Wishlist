@@ -39,7 +39,6 @@ class place_details : AppCompatActivity() {
             var cover=findViewById<ImageView>(R.id.cover)
             var name=findViewById<TextView>(R.id.name)
             var description=findViewById<TextView>(R.id.dis)
-            var location=findViewById<Button>(R.id.location)
             var exp_date=findViewById<Button>(R.id.exp_date)
 
             //cover.setImageURI(Uri.parse(myWishlistModel.image))

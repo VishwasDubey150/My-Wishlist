@@ -40,7 +40,7 @@
         android:elevation="50dp"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:hint="Description (100 letters)"
+        android:hint="Description (120 letters)"
         android:textSize="20dp"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/blinker_bold"
@@ -51,7 +51,7 @@
         android:paddingBottom="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:maxLength="100">
+        android:maxLength="130">
     </EditText>
     <TextView
         android:id="@+id/dates"
@@ -71,25 +71,6 @@
         android:paddingRight="20dp"
         android:onClick="date">
     </TextView>
-
-    <EditText
-        android:id="@+id/location"
-        android:elevation="50dp"
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
-        android:hint="Location"
-        android:textSize="25dp"
-        android:fontFamily="@font/blinker_bold"
-        android:textAlignment="center"
-        android:background="@drawable/et_bg"
-        android:layout_gravity="center"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:onClick="location">
-    </EditText>
 
     <LinearLayout
         android:layout_width="match_parent"
